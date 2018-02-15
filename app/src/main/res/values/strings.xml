@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cinematch</string>
+    <array name="drawer_items">
+        <item>Home</item>
+        <item>About</item>
+    </array>
+</resources>
