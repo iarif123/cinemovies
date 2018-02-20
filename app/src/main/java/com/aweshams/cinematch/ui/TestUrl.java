@@ -3,16 +3,10 @@ package com.aweshams.cinematch.ui;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.aweshams.cinematch.controls.adapters.RecyclerViewAdapter;
 import com.aweshams.cinematch.serviceclients.tmdb.TMDbApiClient;
-import com.aweshams.cinematch.serviceclients.tmdb.models.Detailed;
-import com.aweshams.cinematch.utils.Promise;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+import com.aweshams.cinematch.serviceclients.tmdb.models.MovieSummaryList;
+import com.aweshams.cinematch.utils.promises.Promise;
 
 import okhttp3.OkHttpClient;
 
@@ -21,16 +15,22 @@ import okhttp3.OkHttpClient;
  */
 
 public class TestUrl extends AsyncTask {
+    private RecyclerViewAdapter mAdapter;
+
+    public TestUrl(RecyclerViewAdapter adapter) {
+        this.mAdapter = adapter;
+    }
+
     @Override
     protected Object doInBackground(Object[] objects) {
 
         OkHttpClient client = new OkHttpClient();
         TMDbApiClient tmDbApiClient = new TMDbApiClient(client);
-        Promise<Detailed> promise = tmDbApiClient.getMovieDetailsById(550);
+        Promise<MovieSummaryList> promise = tmDbApiClient.getNowPlayingMovies(1);
 
         promise.then(result -> {
-            Log.d("TEST", result.title);
-            return result;
+            mAdapter.updateList(result.results);
+            return null;
         }).error(e -> {
             Log.d("TEST", e.getMessage());
         });

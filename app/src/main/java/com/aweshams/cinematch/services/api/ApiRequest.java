@@ -3,8 +3,8 @@ package com.aweshams.cinematch.services.api;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.aweshams.cinematch.utils.Deferral;
-import com.aweshams.cinematch.utils.Promise;
+import com.aweshams.cinematch.utils.promises.Deferral;
+import com.aweshams.cinematch.utils.promises.Promise;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 

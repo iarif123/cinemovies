@@ -1,15 +1,18 @@
-package com.aweshams.cinematch.utils;
+package com.aweshams.cinematch.utils.promises;
 
 /**
  * Created by irteza on 2018-01-04.
  *
  * @param <TResult> the type parameter
  */
-class RecoverableErrorPromise<TResult> extends ErrorPromise<TResult> {
+class UnrecoverableErrorPromise<TResult> extends ErrorPromise<TResult> {
 
     // region instance variables
 
-    private final RecoveryBlock _recoveryBlock;
+    /**
+     * The Error block.
+     */
+    protected final ErrorBlock _errorBlock;
 
     // endregion
 
@@ -17,25 +20,24 @@ class RecoverableErrorPromise<TResult> extends ErrorPromise<TResult> {
     // region constructors
 
     /**
-     * Instantiates a new Recoverable error promise.
+     * Instantiates a new Unrecoverable error promise.
      *
-     * @param recoveryBlock the recovery block
+     * @param errorBlock the error block
      */
-    RecoverableErrorPromise(RecoveryBlock recoveryBlock) {
+    UnrecoverableErrorPromise(ErrorBlock errorBlock) {
 
         // call base constructor
         super();
 
         // initialize instance variables
-        _recoveryBlock = recoveryBlock;
+        _errorBlock = errorBlock;
     }
 
     // endregion
 
 
-    // region overrides
+    // region lifecycle
 
-    @Override
     protected void execute(Rejection rejection) {
 
         // if rejection is already consumed, reject and exit
@@ -48,21 +50,10 @@ class RecoverableErrorPromise<TResult> extends ErrorPromise<TResult> {
         // try to run the block
         try {
 
-            // instantiate new recovery
-            Recovery<TResult> recovery = new Recovery<>();
+            // execute block
+            _errorBlock.execute(rejection.error);
 
-            // execute recovery block with rejection error and recovery object
-            _recoveryBlock.execute(rejection.error, recovery);
-
-            // check if value was set on recovery
-            if (recovery.hasSetValue()) {
-
-                // resolve with new value and exit
-                onResolve(recovery.getValue());
-                return;
-            }
-
-            // mark error as consumed if recovery block did not throw and did not set a value
+            // mark error as consumed if error block did not throw
             rejection.consume();
 
             // propagate rejection

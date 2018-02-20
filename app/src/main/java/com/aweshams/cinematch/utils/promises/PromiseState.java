@@ -1,4 +1,4 @@
-package com.aweshams.cinematch.utils;
+package com.aweshams.cinematch.utils.promises;
 
 /**
  * Created by irteza on 2018-01-04.

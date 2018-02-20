@@ -1,4 +1,4 @@
-package com.aweshams.cinematch.utils;
+package com.aweshams.cinematch.utils.promises;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReferenceArray;
