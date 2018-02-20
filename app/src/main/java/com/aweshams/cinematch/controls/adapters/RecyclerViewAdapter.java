@@ -102,6 +102,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public void bind(MovieSummary movieSummary) {
 
+            coverImage.setImageDrawable(null);
             String url = "https://image.tmdb.org/t/p/w185" + movieSummary.poster_path;
             new DownloadImageWithURLTask(coverImage).execute(url);
             releaseDate.setText(movieSummary.release_date);

@@ -12,6 +12,7 @@ import com.aweshams.cinematch.R;
 import com.aweshams.cinematch.controls.EndlessRecyclerViewScrollListener;
 import com.aweshams.cinematch.controls.adapters.RecyclerViewAdapter;
 import com.aweshams.cinematch.serviceclients.tmdb.TMDbApiClient;
+import com.aweshams.cinematch.serviceclients.tmdb.models.MovieSummary;
 import com.aweshams.cinematch.serviceclients.tmdb.models.MovieSummaryList;
 import com.aweshams.cinematch.utils.promises.Promise;
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        mMoviesList.addOnScrollListener(scrollListener);
+
         mAdapter = new RecyclerViewAdapter();
 
         mMoviesList.setAdapter(mAdapter);
@@ -84,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
         Promise<MovieSummaryList> promise = tmDbApiClient.getNowPlayingMovies(offset + 1);
 
         promise.then(result -> {
-            mAdapter.updateList(result.results);
+            for (MovieSummary summary : result.results) {
+                mAdapter.addItem(mAdapter.getItemCount(), summary);
+            }
             return null;
         }).error(e -> {
             Log.d("TEST", e.getMessage());
