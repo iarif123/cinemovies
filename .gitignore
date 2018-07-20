@@ -5,9 +5,6 @@
 # Files for the Dalvik VM
 *.dex
 
-# File for hockey app
-main/java/com.myaccount.telus/HockeyAppId.java
-
 __MACOSX
 .DS_Store
 
