@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.aweshams.cinematch.CinematchApplication;
 import com.aweshams.cinematch.R;
+import com.aweshams.cinematch.services.api.tmdb.enums.MovieSummaryType;
 import com.aweshams.cinematch.ui.controls.EndlessRecyclerViewScrollListener;
 import com.aweshams.cinematch.ui.controls.adapters.MovieItemRecyclerViewAdapter;
 import com.aweshams.cinematch.managers.MovieManager;
@@ -23,17 +24,20 @@ import javax.inject.Inject;
  * Created by irteza on 2018-04-25.
  */
 
-public class MoviesNowPlayingFragment extends TabItemFragment {
+public class MoviesListFragment extends TabItemFragment {
 
-    private final static String LOG_TAG = "MoviesNowPlayingFragment";
+    private final static String LOG_TAG = "MoviesListFragment";
 
     @Inject MovieManager _movieManager;
+
+    MovieSummaryType type;
 
     private boolean _isLoadingData;
     private MovieItemRecyclerViewAdapter adapter;
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    public MoviesNowPlayingFragment() {
+
+    public MoviesListFragment(MovieSummaryType type, String title) {
         super();
 
         CinematchApplication
@@ -41,7 +45,8 @@ public class MoviesNowPlayingFragment extends TabItemFragment {
                 .getComponent()
                 .inject(this);
 
-        setTitle("Now Playing");
+        this.type = type;
+        setTitle(title);
 
     }
 
@@ -109,7 +114,7 @@ public class MoviesNowPlayingFragment extends TabItemFragment {
      */
     public void loadData() {
 
-        _movieManager.getNowPlayingMovies(1)
+        _movieManager.getMovieSummaries(1, type)
                 .then(result -> {
                     adapter.updateList(result);
                     return result;
@@ -118,7 +123,7 @@ public class MoviesNowPlayingFragment extends TabItemFragment {
 
     public void loadNextDataFromApi(int offset) {
 
-        _movieManager.getNowPlayingMovies(offset + 1)
+        _movieManager.getMovieSummaries(offset + 1, type)
                 .then(result -> {
                     for (MovieItem item : result) {
                         mAdapter.addItem(item);

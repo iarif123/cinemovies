@@ -1,7 +1,6 @@
 package com.aweshams.cinematch.services.api.tmdb;
 
-import android.graphics.Bitmap;
-
+import com.aweshams.cinematch.services.api.tmdb.enums.MovieSummaryType;
 import com.aweshams.cinematch.services.api.tmdb.models.Detailed;
 import com.aweshams.cinematch.services.api.tmdb.models.MovieSummaryList;
 import com.aweshams.cinematch.services.api.ApiClient;
@@ -10,7 +9,6 @@ import com.aweshams.cinematch.utils.promises.Promise;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
@@ -55,15 +53,15 @@ public class TMDbApiClient extends ApiClient {
     }
 
     /**
-     * Retrieve now playing movies
+     * Retrieve movie summaries
      *
      * @param
      * @return
      */
-    public Promise<MovieSummaryList> getNowPlayingMovies(int page) {
+    public Promise<MovieSummaryList> getMoviesSummaries(int page, MovieSummaryType type) {
 
         // create uri
-        String uri = BASE_URL + "now_playing" + "?api_key=" + API_KEY + "&language=en-US&page=" + page;
+        String uri = BASE_URL + type.toString() + "?api_key=" + API_KEY + "&language=en-US&page=" + page;
 
         GsonTransform<MovieSummaryList> transform = GsonTransform.create(MovieSummaryList.class);
 

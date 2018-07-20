@@ -6,7 +6,7 @@ import com.aweshams.cinematch.ui.BaseFragment;
 import com.aweshams.cinematch.ui.BaseHomeFragment;
 import com.aweshams.cinematch.ui.MainActivity;
 import com.aweshams.cinematch.ui.MoviesHomeFragment;
-import com.aweshams.cinematch.ui.MoviesNowPlayingFragment;
+import com.aweshams.cinematch.ui.MoviesListFragment;
 
 import javax.inject.Singleton;
 
@@ -31,5 +31,5 @@ public interface ApplicationComponent {
     void inject(BaseHomeFragment homeFragment);
     void inject(MoviesHomeFragment moviesHomeFragment);
 
-    void inject(MoviesNowPlayingFragment fragment);
+    void inject(MoviesListFragment fragment);
 }

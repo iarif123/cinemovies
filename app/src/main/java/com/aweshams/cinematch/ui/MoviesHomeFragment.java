@@ -2,6 +2,8 @@ package com.aweshams.cinematch.ui;
 
 import com.aweshams.cinematch.CinematchApplication;
 import com.aweshams.cinematch.R;
+import com.aweshams.cinematch.services.api.tmdb.enums.MovieSummaryType;
+import com.aweshams.cinematch.services.api.tmdb.models.MovieSummary;
 import com.aweshams.cinematch.ui.controls.adapters.TabControlAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +29,9 @@ public class MoviesHomeFragment extends TabControlFragment {
         _fragmentList = new ArrayList<>();
 
         // add fragments
-        _fragmentList.add(new MoviesNowPlayingFragment());
+        _fragmentList.add(new MoviesListFragment(MovieSummaryType.NOW_PLAYING, "Now Playing"));
+        _fragmentList.add(new MoviesListFragment(MovieSummaryType.TOP_RATED, "Top Rated"));
+        _fragmentList.add(new MoviesListFragment(MovieSummaryType.UPCOMING, "Upcoming"));
 
         // create adapter and return it
         return new TabControlAdapter(getChildFragmentManager(), _fragmentList);

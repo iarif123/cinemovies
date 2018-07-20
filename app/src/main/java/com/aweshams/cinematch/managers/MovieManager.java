@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.aweshams.cinematch.models.MovieItem;
 import com.aweshams.cinematch.services.api.tmdb.TMDbApiClient;
+import com.aweshams.cinematch.services.api.tmdb.enums.MovieSummaryType;
 import com.aweshams.cinematch.services.api.tmdb.models.MovieSummary;
 import com.aweshams.cinematch.services.api.tmdb.models.MovieSummaryList;
 import com.aweshams.cinematch.services.data.IImageService;
@@ -31,14 +32,14 @@ public class MovieManager {
     }
 
     /**
-     * Get transaction history for bill cycles
+     * Get movie summaries
      *
      * @param page
      * @return Promise containing MovieItems
      */
-    public Promise<List<MovieItem>> getNowPlayingMovies(int page) {
+    public Promise<List<MovieItem>> getMovieSummaries(int page, MovieSummaryType type) {
         // get movies to organise
-        return this.tmDbApiClient.getNowPlayingMovies(page)
+        return this.tmDbApiClient.getMoviesSummaries(page, type)
                 .then(result -> {
 
                     // populate movieList with movie info
